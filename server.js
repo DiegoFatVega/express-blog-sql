@@ -39,8 +39,8 @@ app.delete('/api/posts/:id', (req, res) => {
 })
 
 app.get('/api/posts/:id', (req, res) => {
-    const sql = 'SELECT * FROM posts WHERE id = ?'
-
+    const sql = 'SELECT posts.id, posts.title, posts.content, posts.image, tags.label FROM posts JOIN post_tag ON post_tag.post_id = posts.id JOIN tags ON tags.id = post_tag.tag_id WHERE posts.id = ?;'
+    /* const tagsSql = 'SELECT * FROM tags WHERE id = ?' */
     const blogId = Number(req.params.id);
 
     connection.query(sql, [blogId], (err, results) => {
@@ -50,9 +50,18 @@ app.get('/api/posts/:id', (req, res) => {
         }
         console.log(results)
         res.json(results);
+
+        /* connection.query(tagsSql, [blogId], (tagsErr, tagsResults) => {
+            if (tagsErr) return res.status(500).json({ error: tagsErr.meggage })
+            const thisTag = { ...results[0], tagsResults };
+            res.json(thisTag);
+
+        }) */
     })
 
 })
+
+
 
 
 //app.use('/blogs', blogsRouter);
