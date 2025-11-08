@@ -36,6 +36,23 @@ app.delete('/api/posts/:id', (req, res) => {
         console.log(`Deleted post with id ${postId}`);
         return res.json(results.serverStatus)
     })
+})
+
+app.get('/api/posts/:id', (req, res) => {
+    const sql = 'SELECT * FROM posts WHERE id = ?'
+
+    const blogId = Number(req.params.id);
+
+    connection.query(sql, [blogId], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'post not found' });
+        }
+        console.log(results)
+        res.json(results);
+    })
 
 })
+
+
 //app.use('/blogs', blogsRouter);
