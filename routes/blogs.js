@@ -6,4 +6,7 @@ const blogController = require(`../controllers/blogController`);
 //API routes: index
 router.get('/', blogController.index)
 
-module.exports = router
+//Route Destroy
+router.delete('/:id', blogController.destroy)
+
+module.exports = router;
